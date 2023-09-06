@@ -191,7 +191,21 @@ public class Assignment1 {
               "There are no products that have been deleted."
             );
           } else {
-            StringBuilder ListofDeletedProducts = new StringBuilder(
+            int i = 0;
+            String s = "Product\tDate\tManufacturer\n";
+            int size = deleteProducts.size();
+            while (i < size) {
+              Product d = (Product) deleteProducts.get(i);
+              s =
+                s +
+                d.getName() +
+                "\t" +
+                d.getPurchaseDate() +
+                "\t" +
+                d.getPManufactureName();
+              i++;
+            }
+            /* StringBuilder ListofDeletedProducts = new StringBuilder(
               "Deleted products: "
             );
             for (Product deletedProduct : deleteProducts) {
@@ -199,7 +213,12 @@ public class Assignment1 {
                 .append("\nDeleted product name: ")
                 .append(deletedProduct.getName());
             }
-            JOptionPane.showMessageDialog(null, ListofDeletedProducts);
+            JOptionPane.showMessageDialog(null, ListofDeletedProducts); */
+            scrollPane(
+              s.toString(),
+              "Deleted Products",
+              JOptionPane.INFORMATION_MESSAGE
+            );
           }
           break;
         case 5:
