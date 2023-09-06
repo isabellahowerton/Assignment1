@@ -1,4 +1,10 @@
+import java.awt.Dimension;
+import java.awt.Font;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -7,11 +13,10 @@ public class Assignment1 {
 
   public static void main(String[] args) throws Exception {
     ArrayList<Manufacturer> manufacturerList = new ArrayList<>();
-
-    // Manufacturer addManufacturer = new Manufacturer(null, null);
-    // manufacturerList.add(addManufacturer);
     Database inventory = new Database();
     Database deleted = new Database();
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    Date date = new Date();
     boolean exit = false;
 
     while (!exit) {
@@ -35,12 +40,44 @@ public class Assignment1 {
 
           //Product Manufacturer
           String mn = GetData.getString("Enter Product Manufacturer Name");
-          String ma = GetData.getString("Enter Product Manufacturer address");
+          String ma = GetData.getString("Enter Product Manufacturer State");
           Manufacturer m = new Manufacturer(mn, ma);
 
+          // ArrayList<String> states = new ArrayList<>();
+          // //states.add();
+          ArrayList<LocalDate> purchaseDates = new ArrayList<>();
+
+          LocalDate purchaseDate = LocalDate.now();
+
           //Add product to inventory
-          Product i = new Product(n, p, q, m);
-          inventory.addProduct(i);
+          Product pr = new Product(n, p, q, m, ma, purchaseDate);
+          inventory.addProduct(pr);
+
+          String addedProduct =
+            "Product: " +
+            n +
+            "\n" +
+            "Purchase date: " +
+            purchaseDate +
+            "\n" +
+            "Quantity: " +
+            q +
+            "\n" +
+            "Price: $" +
+            p +
+            "\n" +
+            "Manufacturer: " +
+            mn +
+            "\n" +
+            "State: " +
+            ma;
+
+          JOptionPane.showMessageDialog(
+            null,
+            addedProduct,
+            "Product Information",
+            JOptionPane.INFORMATION_MESSAGE
+          );
 
           break;
         case 2:
@@ -54,7 +91,7 @@ public class Assignment1 {
           } else {
             Product d = inventory.getProduct();
             int index = inventory.getIndex();
-            //inventory.addProduct(inventory.removeProduct(index));
+            inventory.addProduct(inventory.removeProduct(index));
             removedProduct = inventory.removeProduct(inventory.getIndex());
             deleted.addDeletedProducts(removedProduct);
             JOptionPane.showMessageDialog(null, "The product has been deleted");
@@ -77,48 +114,73 @@ public class Assignment1 {
                 "Product not found"
               ); else {
                 Product pp = inventory.getProduct();
-                String pr =
-                  "Product\t Price\t Quantity\n" +
+                String pro =
+                  "Product\tPurchase Date\tQuantity\tPrice\tManufacturer\tState\n" +
                   pp.getName() +
+                  "\t" +
+                  pp.getPurchaseDate() +
+                  "\t" +
+                  pp.getQuantity() +
                   "\t" +
                   pp.getPrice() +
                   "\t" +
-                  pp.getQuantity();
-                JOptionPane.showMessageDialog(null, pr);
+                  pp.getPManufactureName() +
+                  "\t" +
+                  pp.getStates().toString();
+
+                //JOptionPane.showMessageDialog(null, pro);
+                scrollPane(
+                  pro,
+                  "Product Information",
+                  JOptionPane.INFORMATION_MESSAGE
+                );
               }
               break;
             case 2:
               //Viewing Report
-              if (inStock.isEmpty()) {
+              ArrayList<Product> list = inventory.getReport();
+              if (list.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "There are no products");
               } else {
-                String info = "";
-                int index = 0;
+                String info =
+                  "Product\tPurchase Date\tQuantity\tPrice\tManufacturer\tState\n";
+                int i = 0;
                 int size = inventory.size();
 
-                while (index < size) {
-                  Product p1 = (Product) inStock.get(index);
+                while (i < size) {
+                  Product p1 = (Product) list.get(i);
+                  //String stateString = String.join(", ", p1.getStates());
 
                   info =
+                    info +
                     p1.getName() +
+                    "\t" +
+                    p1.getPurchaseDate() +
+                    "\t" +
                     p1.getQuantity() +
+                    "\t" +
                     p1.getPrice() +
-                    p1.getPManufactureName();
-                  p1.getPManufactureAddress();
-                  index++;
-                }
+                    "\t" +
+                    p1.getPManufactureName() +
+                    "\t" +
+                    p1.getStates().toString() +
+                    "\n";
 
+                  i++;
+                }
                 scrollPane(
-                  info,
+                  info.toString(),
                   "Inventory Report",
                   JOptionPane.INFORMATION_MESSAGE
                 );
               }
+
               break;
             default:
               JOptionPane.showMessageDialog(null, "Invalid Selection");
               break;
           }
+
           break;
         case 4:
           //deleted product
@@ -167,6 +229,7 @@ public class Assignment1 {
             );
           }
           break;
+        // add manufacturer(s)
         case 6:
           String manufacturerName = JOptionPane.showInputDialog(
             null,
@@ -189,7 +252,10 @@ public class Assignment1 {
             "\n Manufacturer address: " +
             manufacturer.getManufacturerAddress()
           );
-          // exit = true;
+          JOptionPane.showMessageDialog(
+            null,
+            "Manufacturer was successfully added."
+          );
           break;
         case 7:
           // exit
@@ -205,8 +271,12 @@ public class Assignment1 {
   }
 
   static void scrollPane(String s, String title, int o) {
-    JTextArea output = new JTextArea(s, 100, 10);
-    JScrollPane pane = new JScrollPane(output);
+    JTextArea output = new JTextArea(s, 100, 100);
+    JScrollPane pane = new JScrollPane(
+      output,
+      JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+      JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+    );
     JOptionPane.showMessageDialog(null, pane);
   }
 }

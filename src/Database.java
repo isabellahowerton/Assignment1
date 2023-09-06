@@ -19,9 +19,8 @@ public class Database {
 
     while (!exist && i < report.size()) {
       Product p = report.get(i);
+
       if (p.getName().equalsIgnoreCase(name)) {
-        String n;
-        n = pr.getName();
         pr = p;
         exist = true;
         index = i;
