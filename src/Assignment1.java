@@ -1,8 +1,9 @@
-import java.awt.Dimension;
-import java.awt.Font;
+// Alejandro Cancio and Isabella Howerton Assignment 1
+
+/* import statements for date format, ArrayLists,
+ * and JOptionPane windows.*/
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -12,13 +13,17 @@ import javax.swing.JTextArea;
 public class Assignment1 {
 
   public static void main(String[] args) throws Exception {
+    /*Creates ArrayList for manufacturers */
     ArrayList<Manufacturer> manufacturerList = new ArrayList<>();
+    /*Creates new instances of the database class for
+     * inventory and deleted products.*/
     Database inventory = new Database();
     Database deleted = new Database();
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+    Date purchaseDate = new Date();
     boolean exit = false;
 
+    //while loop creates start menu
     while (!exit) {
       int startmenu = GetData.getInt(
         "Inventory Program\n" +
@@ -42,15 +47,10 @@ public class Assignment1 {
           String mn = GetData.getString("Enter Product Manufacturer Name");
           String ma = GetData.getString("Enter Product Manufacturer State");
           Manufacturer m = new Manufacturer(mn, ma);
-
-          // ArrayList<String> states = new ArrayList<>();
-          // //states.add();
-          ArrayList<LocalDate> purchaseDates = new ArrayList<>();
-
-          LocalDate purchaseDate = LocalDate.now();
+          String formattedDate = dateFormat.format(purchaseDate);
 
           //Add product to inventory
-          Product pr = new Product(n, p, q, m, ma, purchaseDate);
+          Product pr = new Product(n, p, q, m, ma, formattedDate);
           inventory.addProduct(pr);
 
           String addedProduct =
@@ -58,7 +58,7 @@ public class Assignment1 {
             n +
             "\n" +
             "Purchase date: " +
-            purchaseDate +
+            formattedDate +
             "\n" +
             "Quantity: " +
             q +
@@ -89,7 +89,6 @@ public class Assignment1 {
           if (!inventory.inInventory()) {
             JOptionPane.showMessageDialog(null, "Product Does not Exist");
           } else {
-            Product d = inventory.getProduct();
             int index = inventory.getIndex();
             inventory.addProduct(inventory.removeProduct(index));
             removedProduct = inventory.removeProduct(inventory.getIndex());
@@ -102,7 +101,6 @@ public class Assignment1 {
           int option = GetData.getInt(
             "1. View a Single Product" + "\n 2. View Whole Report"
           );
-          ArrayList inStock = inventory.getReport();
 
           switch (option) {
             case 1:
@@ -115,7 +113,7 @@ public class Assignment1 {
               ); else {
                 Product pp = inventory.getProduct();
                 String pro =
-                  "Product\tPurchase Date\tQuantity\tPrice\tManufacturer\tState\n" +
+                  "Product\tDate\tQuantity\tPrice\tManufacturer\t\tState\n" +
                   pp.getName() +
                   "\t" +
                   pp.getPurchaseDate() +
@@ -128,7 +126,6 @@ public class Assignment1 {
                   "\t" +
                   pp.getStates().toString();
 
-                //JOptionPane.showMessageDialog(null, pro);
                 scrollPane(
                   pro,
                   "Product Information",
@@ -143,13 +140,12 @@ public class Assignment1 {
                 JOptionPane.showMessageDialog(null, "There are no products");
               } else {
                 String info =
-                  "Product\tPurchase Date\tQuantity\tPrice\tManufacturer\tState\n";
+                  "Product\tDate\tQuantity\tPrice\tManufacturer\tState\n";
                 int i = 0;
                 int size = inventory.size();
 
                 while (i < size) {
                   Product p1 = (Product) list.get(i);
-                  //String stateString = String.join(", ", p1.getStates());
 
                   info =
                     info +
@@ -205,15 +201,7 @@ public class Assignment1 {
                 d.getPManufactureName();
               i++;
             }
-            /* StringBuilder ListofDeletedProducts = new StringBuilder(
-              "Deleted products: "
-            );
-            for (Product deletedProduct : deleteProducts) {
-              ListofDeletedProducts
-                .append("\nDeleted product name: ")
-                .append(deletedProduct.getName());
-            }
-            JOptionPane.showMessageDialog(null, ListofDeletedProducts); */
+
             scrollPane(
               s.toString(),
               "Deleted Products",
@@ -277,7 +265,7 @@ public class Assignment1 {
           );
           break;
         case 7:
-          // exit
+          // exit menu option
           exit = true;
           break;
         default:
@@ -289,6 +277,7 @@ public class Assignment1 {
     }
   }
 
+  /*method to display scrollable JOptionPane window(s). */
   static void scrollPane(String s, String title, int o) {
     JTextArea output = new JTextArea(s, 100, 100);
     JScrollPane pane = new JScrollPane(
