@@ -113,26 +113,6 @@ public class Assignment1 {
                 "Product not found"
               ); else {
                 Product pp = inventory.getProduct();
-                // String pro =
-                //   "Product\tDate\tQuantity\tPrice\tManufacturer\t\tState\n" +
-                //   pp.getName() +
-                //   "\t" +
-                //   pp.getPurchaseDate() +
-                //   "\t" +
-                //   pp.getQuantity() +
-                //   "\t" +
-                //   pp.getPrice() +
-                //   "\t" +
-                //   pp.getPManufactureName() +
-                //   "\t" +
-                //   pp.getStates().toString();
-
-                // scrollPane(
-                //   pro,
-                //   "Product Information",
-                //   JOptionPane.INFORMATION_MESSAGE
-                // );
-
                 Object[][] inventoryReport = new Object[1][6];
                 inventoryReport[0][0] = pp.getName();
                 inventoryReport[0][1] = pp.getPurchaseDate();
@@ -141,7 +121,6 @@ public class Assignment1 {
                 inventoryReport[0][4] = pp.getPManufactureName();
                 inventoryReport[0][5] = pp.getStates().toString();
 
-                // Array for headers
                 String[] headers = {
                   "Product",
                   "Purchase Date",
@@ -150,8 +129,6 @@ public class Assignment1 {
                   "Manufacturer",
                   "State",
                 };
-
-                // JTable for columns and data
                 JTable table = new JTable(inventoryReport, headers);
 
                 JOptionPane.showMessageDialog(
@@ -168,36 +145,6 @@ public class Assignment1 {
               if (list.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "There are no products");
               } else {
-                // String info =
-                //   "Product\tDate\tQuantity\tPrice\tManufacturer\tState\n";
-                // int i = 0;
-                // int size = inventory.size();
-
-                // while (i < size) {
-                //   Product p1 = (Product) list.get(i);
-
-                //   info =
-                //     info +
-                //     p1.getName() +
-                //     "\t" +
-                //     p1.getPurchaseDate() +
-                //     "\t" +
-                //     p1.getQuantity() +
-                //     "\t" +
-                //     p1.getPrice() +
-                //     "\t" +
-                //     p1.getPManufactureName() +
-                //     "\t" +
-                //     p1.getStates().toString() +
-                //     "\n";
-
-                //   i++;
-                // }
-                // scrollPane(
-                //   info.toString(),
-                //   "Inventory Report",
-                //   JOptionPane.INFORMATION_MESSAGE
-                // );
                 Object[][] inventoryReport = new Object[list.size()][6];
 
                 for (int i = 0; i < list.size(); i++) {
@@ -224,7 +171,7 @@ public class Assignment1 {
                   null,
                   new JScrollPane(table),
                   "Inventory Report",
-                  JOptionPane.PLAIN_MESSAGE
+                  JOptionPane.INFORMATION_MESSAGE
                 );
               }
 
@@ -244,23 +191,20 @@ public class Assignment1 {
               "There are no products that have been deleted."
             );
           } else {
-            int i = 0;
-            String s = "Product\tDate\tManufacturer\n";
-            int size = deleteProducts.size();
-            while (i < size) {
-              Product d = (Product) deleteProducts.get(i);
-              s =
-                s +
-                d.getName() +
-                "\t" +
-                d.getPurchaseDate() +
-                "\t" +
-                d.getPManufactureName();
-              i++;
-            }
+            Object[][] deletedReport = new Object[deleteProducts.size()][3];
 
-            scrollPane(
-              s.toString(),
+            for (int i = 0; i < deleteProducts.size(); i++) {
+              Product d = deleteProducts.get(i);
+              deletedReport[i][0] = d.getName();
+              deletedReport[i][1] = d.getPurchaseDate();
+              deletedReport[i][2] = d.getPManufactureName();
+            }
+            String[] headers = { "Product", "Date", "Manufacturer" };
+            JTable table = new JTable(deletedReport, headers);
+
+            JOptionPane.showMessageDialog(
+              null,
+              new JScrollPane(table),
               "Deleted Products",
               JOptionPane.INFORMATION_MESSAGE
             );
