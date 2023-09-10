@@ -9,6 +9,13 @@
             "name": "Assignment1",
             "request": "launch",
             "mainClass": "Assignment1",
+            "projectName": "COP2Assignment_49bc6825"
+        },
+        {
+            "type": "java",
+            "name": "Assignment1",
+            "request": "launch",
+            "mainClass": "Assignment1",
             "projectName": "COP2Assignments_edd09cee"
         },
         {

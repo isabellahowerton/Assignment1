@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 public class Assignment1 {
@@ -112,22 +113,50 @@ public class Assignment1 {
                 "Product not found"
               ); else {
                 Product pp = inventory.getProduct();
-                String pro =
-                  "Product\tDate\tQuantity\tPrice\tManufacturer\t\tState\n" +
-                  pp.getName() +
-                  "\t" +
-                  pp.getPurchaseDate() +
-                  "\t" +
-                  pp.getQuantity() +
-                  "\t" +
-                  pp.getPrice() +
-                  "\t" +
-                  pp.getPManufactureName() +
-                  "\t" +
-                  pp.getStates().toString();
+                // String pro =
+                //   "Product\tDate\tQuantity\tPrice\tManufacturer\t\tState\n" +
+                //   pp.getName() +
+                //   "\t" +
+                //   pp.getPurchaseDate() +
+                //   "\t" +
+                //   pp.getQuantity() +
+                //   "\t" +
+                //   pp.getPrice() +
+                //   "\t" +
+                //   pp.getPManufactureName() +
+                //   "\t" +
+                //   pp.getStates().toString();
 
-                scrollPane(
-                  pro,
+                // scrollPane(
+                //   pro,
+                //   "Product Information",
+                //   JOptionPane.INFORMATION_MESSAGE
+                // );
+
+                Object[][] inventoryReport = new Object[1][6];
+                inventoryReport[0][0] = pp.getName();
+                inventoryReport[0][1] = pp.getPurchaseDate();
+                inventoryReport[0][2] = pp.getQuantity();
+                inventoryReport[0][3] = pp.getPrice();
+                inventoryReport[0][4] = pp.getPManufactureName();
+                inventoryReport[0][5] = pp.getStates().toString();
+
+                // Array for headers
+                String[] headers = {
+                  "Product",
+                  "Purchase Date",
+                  "Quantity",
+                  "Price",
+                  "Manufacturer",
+                  "State",
+                };
+
+                // JTable for columns and data
+                JTable table = new JTable(inventoryReport, headers);
+
+                JOptionPane.showMessageDialog(
+                  null,
+                  new JScrollPane(table),
                   "Product Information",
                   JOptionPane.INFORMATION_MESSAGE
                 );
@@ -139,35 +168,63 @@ public class Assignment1 {
               if (list.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "There are no products");
               } else {
-                String info =
-                  "Product\tDate\tQuantity\tPrice\tManufacturer\tState\n";
-                int i = 0;
-                int size = inventory.size();
+                // String info =
+                //   "Product\tDate\tQuantity\tPrice\tManufacturer\tState\n";
+                // int i = 0;
+                // int size = inventory.size();
 
-                while (i < size) {
-                  Product p1 = (Product) list.get(i);
+                // while (i < size) {
+                //   Product p1 = (Product) list.get(i);
 
-                  info =
-                    info +
-                    p1.getName() +
-                    "\t" +
-                    p1.getPurchaseDate() +
-                    "\t" +
-                    p1.getQuantity() +
-                    "\t" +
-                    p1.getPrice() +
-                    "\t" +
-                    p1.getPManufactureName() +
-                    "\t" +
-                    p1.getStates().toString() +
-                    "\n";
+                //   info =
+                //     info +
+                //     p1.getName() +
+                //     "\t" +
+                //     p1.getPurchaseDate() +
+                //     "\t" +
+                //     p1.getQuantity() +
+                //     "\t" +
+                //     p1.getPrice() +
+                //     "\t" +
+                //     p1.getPManufactureName() +
+                //     "\t" +
+                //     p1.getStates().toString() +
+                //     "\n";
 
-                  i++;
+                //   i++;
+                // }
+                // scrollPane(
+                //   info.toString(),
+                //   "Inventory Report",
+                //   JOptionPane.INFORMATION_MESSAGE
+                // );
+                Object[][] inventoryReport = new Object[list.size()][6];
+
+                for (int i = 0; i < list.size(); i++) {
+                  Product wholeReport = list.get(i);
+                  inventoryReport[i][0] = wholeReport.getName();
+                  inventoryReport[i][1] = wholeReport.getPurchaseDate();
+                  inventoryReport[i][2] = wholeReport.getQuantity();
+                  inventoryReport[i][3] = wholeReport.getPrice();
+                  inventoryReport[i][4] = wholeReport.getPManufactureName();
+                  inventoryReport[i][5] = wholeReport.getStates().toString();
                 }
-                scrollPane(
-                  info.toString(),
+                String[] headers = {
+                  "Product",
+                  "Purchase Date",
+                  "Quantity",
+                  "Price",
+                  "Manufacturer",
+                  "State",
+                };
+
+                JTable table = new JTable(inventoryReport, headers);
+
+                JOptionPane.showMessageDialog(
+                  null,
+                  new JScrollPane(table),
                   "Inventory Report",
-                  JOptionPane.INFORMATION_MESSAGE
+                  JOptionPane.PLAIN_MESSAGE
                 );
               }
 
