@@ -278,7 +278,8 @@ public class Assignment1 {
     }
   }
 
-  /*method to display scrollable JOptionPane window(s). */
+  /*method to display scrollable JOptionPane window(s) and 
+  set dimensions of rows and columns. */
   static void scrollPane(String s, String title, int o) {
     JTextArea output = new JTextArea(s, 100, 100);
     JScrollPane pane = new JScrollPane(
